@@ -48,40 +48,40 @@
 
 
 		<div class="sample">
-			<form action="#">
+			<div class="form" v-if="form">
+				<p>
+					<input type="email" placeholder="Email" v-model="userData.email">
+				</p>
+				<p>
+					<input type="text" placeholder="First Name" v-model="userData.firstName">
+				</p>
+				<p>
+					<input type="text" placeholder="Last Name" v-model="userData.lastName">
+				</p>
+				<p>
+					<input type="text" placeholder="Phone" v-model="userData.phone">
+				</p>
 
-				<div class="form" v-if="form">
-					<p>
-						<input type="email" placeholder="Email" v-model="userData.email">
-					</p>
-					<p>
-						<input type="text" placeholder="First Name" v-model="userData.firstName">
-					</p>
-					<p>
-						<input type="text" placeholder="Last Name" v-model="userData.secondName">
-					</p>
-					<p>
-						<input type="text" placeholder="Phone" v-model="userData.phone">
-					</p>
+				<p class="guest-btn">
+					Add guests
+					<button type="button" class="add-guest" @click="addGuest">+</button>
+				</p>
 
-					<p class="guest-btn">
-						Add guests
-						<button type="button" class="add-guest" @click="addGuest">+</button>
-					</p>
+				<ul v-if="guestsExist">
+					<li v-for="(guest, index) in guests"
+						@dblclick="removeGuest(index)">
+						<input type="text"
+							   v-model="guests[index]"
+							   :placeholder="'Guest ' + (index+1)">
+					</li>
+				</ul>
 
-					<ul v-if="guestsExist">
-						<li v-for="(guest, index) in guests" @dblclick="removeGuest(index)">
-							<input type="text" v-model="guests[index].name" v-bind:placeholder="'Guest ' + (index+1)">
-						</li>
-					</ul>
+				<hr>
 
-					<hr>
+				<button type="submit" @click.prevent="hideForm">Send Data</button>
+			</div>
 
-					<button type="submit" @click.prevent="hideForm">Send Data</button>
-				</div>
-			</form>
-
-			<div class="data" v-if="!form">
+			<div class="data" v-else>
 				<ul>
 					<li v-for="(value, key) in userData">
 						<span class="key">
@@ -102,7 +102,7 @@
 
 					<table class="guests-list">
 						<tr v-for="(guest) in guests">
-							<td>{{guest.name}}</td>
+							<td>{{guest}}</td>
 						</tr>
 					</table>
 				</div>
@@ -127,7 +127,14 @@
     let simple = new Vue({
         el: ".sample",
         data: {
-            userData: {},
+
+            //обязательно вписываем пустые поля, для реактивности
+			userData: {
+                email: "",
+                firstName: "",
+                lastName: "",
+                phone:  "",
+			},
             guests: [],
             guestsExist: false,
             form: true
@@ -135,7 +142,7 @@
 
         methods: {
             addGuest() {
-                this.guests.push({name: ""});
+                this.guests.push("");
             },
             removeGuest(index) {
                 this.guests.splice(index, 1);
