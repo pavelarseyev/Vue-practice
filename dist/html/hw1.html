@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<meta name="robots" content="noindex, follow">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="icon" type="image/png" sizes="400x400" href="../images/favicon.png">
+	<link rel="stylesheet" href="../css/style.css"/>
+	<title>Homework 1</title>
+</head>
+<body>
+<div class="wrapper">
+	<header class="header">
+
+	</header>
+
+	<main class="main">
+		<!--Первое ДЗ
+
+	4 инпута
+	Почта
+	Имя
+	Фамилия
+	Телефон
+
+
+	Кнопка добавить гостя
+
+	это инпут с именем Гостя
+
+
+	По даблклику на Гостя его нужно удалить
+
+	Кнопка Сабмит
+
+
+	По нажатию на сабмит показывается второй экран
+	с таблицей
+	почта - почта
+	имя - имя
+	телефон - 1234566
+			__________
+	Гости - | [гость] |
+			| [гость] |
+			| [гость] |
+			-----------
+-->
+
+
+		<div class="sample">
+			<form action="#">
+
+				<div class="form" v-if="form">
+					<p>
+						<input type="email" placeholder="Email" v-model="userData.email">
+					</p>
+					<p>
+						<input type="text" placeholder="First Name" v-model="userData.firstName">
+					</p>
+					<p>
+						<input type="text" placeholder="Last Name" v-model="userData.secondName">
+					</p>
+					<p>
+						<input type="text" placeholder="Phone" v-model="userData.phone">
+					</p>
+
+					<p class="guest-btn">
+						Add guests
+						<button type="button" class="add-guest" @click="addGuest">+</button>
+					</p>
+
+					<ul v-if="guestsExist">
+						<li v-for="(guest, index) in guests" @dblclick="removeGuest(index)">
+							<input type="text" v-model="guests[index].name" v-bind:placeholder="'Guest ' + (index+1)">
+						</li>
+					</ul>
+
+					<hr>
+
+					<button type="submit" @click.prevent="hideForm">Send Data</button>
+				</div>
+			</form>
+
+			<div class="data" v-if="!form">
+				<ul>
+					<li v-for="(value, key) in userData">
+						<span class="key">
+							{{key}}:
+						</span>
+						<span class="value">
+							{{value}}
+						</span>
+					</li>
+				</ul>
+
+				<hr>
+
+				<div class="guests" v-if="guestsExist">
+					<h4>
+						Guests list:
+					</h4>
+
+					<table class="guests-list">
+						<tr v-for="(guest) in guests">
+							<td>{{guest.name}}</td>
+						</tr>
+					</table>
+				</div>
+
+				<hr>
+			</div>
+		</div>
+	</main>
+
+	<footer class="footer">
+
+
+	</footer>
+
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/global.js"></script>
+
+<script>
+    let simple = new Vue({
+        el: ".sample",
+        data: {
+            userData: {},
+            guests: [],
+            guestsExist: false,
+            form: true
+        },
+
+        methods: {
+            addGuest() {
+                this.guests.push({name: ""});
+            },
+            removeGuest(index) {
+                this.guests.splice(index, 1);
+            },
+			hideForm() {
+                this.form = false;
+			}
+        },
+
+        watch: {
+            guests() {
+                this.guestsExist = this.guests.length > 0;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

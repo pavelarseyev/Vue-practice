@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<meta name="robots" content="noindex, follow">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="icon" type="image/png" sizes="400x400" href="../images/favicon.png">
+	<link rel="stylesheet" href="../css/style.css"/>
+	<title>Vue Practice</title>
+</head>
+<body>
+<div class="wrapper">
+	<header class="header">
+
+	</header>
+
+	<main class="main">
+
+		<!--v-bind, v-on:event-->
+		<!--<div class="sample">
+			&lt;!&ndash;v-model - двусторонняя связь между инпутом и полем объекта&ndash;&gt;
+			&lt;!&ndash;v-model позволяет И подставить поле нейм в качестве value И при этом изменить его, в случае ввода новых данных в и нпут&ndash;&gt;
+			&lt;!&ndash;<input type="text" v-model="name">&ndash;&gt;
+
+			&lt;!&ndash;любой код написанный в в-он - работает в контексте данного объекта Вью&ndash;&gt;
+			&lt;!&ndash;При обработке события создается поле $event которое хранит объект события на элементе&ndash;&gt;
+			<input type="text"
+				   v-on:input="name = $event.target.value"
+				   v-bind:value="name">
+			<hr>
+
+			<button @click="showName = !showName">Button with property change</button>
+			<button @click="toggleName">Button with method</button>
+
+			<hr>
+
+			<h2 v-if="showName">Hello, {{$data.name /*name*/}}</h2>
+			<template v-else="showName">
+				<div>Headings are hidden</div>
+				<div>Headings are hidden 2</div>
+			</template>
+			<h2 v-show="showName">Hello, {{$data.name /*name*/}}</h2>
+		</div>-->
+		<!--end v-bind, v-on:event-->
+
+
+		<!--v-model-->
+		<!--<div class="sample">
+			<input type="text" v-model="firstName" placeholder="First Name">
+			<input type="text" v-model="lastName" placeholder="Last Name">
+			<input type="text" v-model="promo" placeholder="Promo">
+			<hr>
+
+			Если подставляем из методс(чего делать не надо),
+			то нужно именно вызывать функциию, а если из компутед,
+			то без вызова, а просто как переменную
+
+			<h2>Hello, {{ (fullName.length > 1 ? fullName : "Username") }}</h2>
+
+			<hr>
+
+			<button @click="showText = !showText">{{message}}</button>
+
+			<hr>
+
+			<div v-show="showText">Your sale is {{ sale }}%</div>
+		</div>-->
+		<!--end v-model-->
+
+
+		<!--v-for-->
+		<div class="sample">
+			<form action="#">
+
+				<div class="form" v-if="form">
+					<p>
+						<input type="email" placeholder="Email" v-model="userData.email">
+					</p>
+					<p>
+						<input type="text" placeholder="First Name" v-model="userData.firstName">
+					</p>
+					<p>
+						<input type="text" placeholder="Last Name" v-model="userData.secondName">
+					</p>
+					<p>
+						<input type="text" placeholder="Phone" v-model="userData.phone">
+					</p>
+
+					<p class="guest-btn">
+						Add guests
+						<button type="button" class="add-guest" @click="addGuest">+</button>
+					</p>
+
+					<!--Guests list-->
+					<ul v-if="guestsExist">
+						<li v-for="(guest, index) in guests" @dblclick="removeGuest(index)">
+							<input type="text" v-model="guests[index].name" v-bind:placeholder="'Guest ' + (index+1)">
+						</li>
+					</ul>
+
+					<hr>
+
+					<button type="submit" @click.prevent="hideForm">Send Data</button>
+				</div>
+			</form>
+
+			<div class="data" v-if="!form">
+				<ul>
+					<li v-for="(value, key) in userData">
+						<span class="key">
+							{{key}}:
+						</span>
+						<span class="value">
+							{{value}}
+						</span>
+					</li>
+				</ul>
+
+				<hr>
+
+				<div class="guests" v-if="guestsExist">
+					<h4>
+						Guests list:
+					</h4>
+
+					<table class="guests-list">
+						<tr v-for="(guest) in guests">
+							<td>{{guest.name}}</td>
+						</tr>
+					</table>
+				</div>
+
+				<hr>
+			</div>
+		</div>
+		<!--v-for end-->
+	</main>
+
+	<footer class="footer">
+
+
+	</footer>
+
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/global.js"></script>
+
+<!--Первое ДЗ
+
+	4 инпута
+	Почта
+	Имя
+	Фамилия
+	Телефон
+
+
+	Кнопка добавить гостя
+
+	это инпут с именем Гостя
+
+
+	По даблклику на Гостя его нужно удалить
+
+	Кнопка Сабмит
+
+
+	По нажатию на сабмит показывается второй экран
+	с таблицей
+	почта - почта
+	имя - имя
+	телефон - 1234566
+			__________
+	Гости - | [гость] |
+			| [гость] |
+			| [гость] |
+			-----------
+-->
+
+<script>
+    let simple = new Vue({
+        el: ".sample",
+        data: {
+            userData: {},
+            guests: [],
+            guestsExist: false,
+            form: true
+        },
+
+        methods: {
+            addGuest() {
+                this.guests.push({name: ""});
+            },
+            removeGuest(index) {
+                this.guests.splice(index, 1);
+            },
+			hideForm() {
+                this.form = false;
+			}
+        },
+
+        watch: {
+            guests() {
+                this.guestsExist = this.guests.length > 0;
+            }
+        }
+    });
+
+    /*function getSale(code, callback) {
+
+		let codes = {
+			newYear: 10,
+			some: 20
+		};
+
+		let sale =  codes[code] || 0;
+
+		setTimeout(() => {
+			callback(sale);
+		}, 700);
+	}*/
+
+
+	/*let tata = {some: 1, someone: 2};*/
+
+    //watch, computed, methods
+    /*let sample = new Vue({
+        el: ".sample",
+
+        //data: хранятся все базовые поля нашего экземпляра
+        data: {
+            firstName: "",
+			lastName: "",
+			promo: "",
+			sale: 0,
+			// fullName: "",
+			showText: false
+        },
+
+        //записываем методы класса
+        methods: {
+			//НЕ НАДО ТАК ДЕЛАТЬ(вычислять какие-то значения в поле методс). Для этого есть поле computed(в нем кешируются все вычисления)
+			/!*fullName() {
+			    console.log("render fullName");
+
+			    return `${this.firstName} ${this.lastName}`;
+			}*!/
+		},
+
+		//Computed Здесь пишем методы, которые вычисляют требуемые значения.
+		computed: {
+            fullName() {
+				return `${this.firstName} ${this.lastName}`;
+            },
+			message() {
+                return this.showText ? "Hide sales" : "Show Sales";
+			}
+		},
+
+		//Watch наблюдает за изменениями указанных полей и вызывает назначенные колбеки
+		/!*watch: {
+            firstName() {
+                this.fullName = `${this.firstName} ${this.lastName}`;
+			},
+
+			lastName() {
+                this.fullName = `${this.firstName} ${this.lastName}`;
+			}
+		}*!/
+
+		//Для асинхронных запросов
+		watch: {
+			promo() {
+                this.showText = this.promo.length >= 4;
+
+                getSale(this.promo, (sale) => {
+                    this.sale = sale;
+				});
+			},
+
+            sale() {
+
+            },
+		}
+    });*/
+    //end watch, computed, methods
+
+    //v-for
+    /*let sample = new Vue({
+        el: ".sample",
+
+        data: {
+            numbers: [],
+            info: [
+                {
+                    name: "Dmitry",
+                    email: "admin@mail.ru"
+                },
+                {
+                    name: "Vasya",
+                    email: "admin1@mail.ru"
+                },
+                {
+                    name: "Ksyuha",
+                    email: "admin2@mail.ru"
+                },
+                {
+                    name: "UltimateDESTROYER3000",
+                    email: "admin3@mail.ru"
+                },
+            ]
+
+        },
+
+		computed: {
+
+		},
+
+        methods: {
+            addNumber() {
+                for (let i = 0; i < 100; i++) {
+                    this.numbers.push(Math.floor(Math.random() * 100));
+                }
+            },
+
+            sortNumbersDown() {
+                this.numbers.sort((i1, i2) => {
+                    return i1 - i2
+                });
+            },
+
+            sortNumbersUp() {
+                this.numbers.sort((i1, i2) => {
+                    return i2 - i1
+                });
+            }
+        }
+    });*/
+    //end v-for
+</script>
+
+</body>
+</html>
