@@ -62,8 +62,20 @@
 		</div>-->
 		<!--end v-model-->
 
+		<!--Прячем(v-if,v-else, v-show) элементы в самую последнюю очередь, чтоб видно было что у нас происходит-->
 
+		<!--Добвление ключей в объект Вью на лету создаетнереактивные ключи-->
+		<!--Чтобы добавить или удалить их, нужно использовать встроенные методы this.$set(object, key, value) и this.$delete(object, key)-->
 
+		<!--<div class="sample">
+			<button @click="addItem">Add item</button>
+
+			<ul>
+				<li v-for="(value, key, index) in items" @dblclick="removeItem(key)" :key="key">
+					Item {{index + 1}}
+				</li>
+			</ul>
+		</div>-->
 
 	</main>
 </div>
@@ -201,7 +213,34 @@
     });*/
     //end v-for
 
+	//добавление полей объекта налету
+    /*let sample = new Vue({
+        el: ".sample",
 
+        data: {
+            items: {},
+            itemIterator: 0,
+        },
+
+        computed: {
+
+        },
+
+        methods: {
+            addItem() {
+                this.itemIterator++;
+                this.$set(this.items, this.itemIterator, "");
+            },
+
+            removeItem(key) {
+                this.$delete(this.items, key);
+            }
+        },
+
+        watch: {
+
+        }
+    });*/
 
 </script>
 
