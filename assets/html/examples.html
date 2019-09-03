@@ -3,6 +3,14 @@
 @@include("head.html", {"title": "Notes Page"})
 <body>
 <div class="wrapper">
+
+	<style>
+		.table-some {
+			color: #fff;
+			background-color: #000;
+		}
+	</style>
+
 	<main class="main">
 		<!--v-bind, v-on:event-->
 		<!--<div class="sample">
@@ -29,8 +37,6 @@
 			</template>
 			<h2 v-show="showName">Hello, {{$data.name /*name*/}}</h2>
 		</div>-->
-		<!--end v-bind, v-on:event-->
-
 
 		<!--v-model-->
 		<!--<div class="sample">
@@ -53,13 +59,11 @@
 
 			<div v-show="showText">Your sale is {{ sale }}%</div>
 		</div>-->
-		<!--end v-model-->
 
 		<!--Прячем(v-if,v-else, v-show) элементы в самую последнюю очередь, чтоб видно было что у нас происходит-->
 
 		<!--Добвление ключей в объект Вью на лету создаетнереактивные ключи-->
 		<!--Чтобы добавить или удалить их, нужно использовать встроенные методы this.$set(object, key, value) и this.$delete(object, key)-->
-
 		<!--<div class="sample">
 			<button @click="addItem">Add item</button>
 
@@ -68,6 +72,107 @@
 					Item {{index + 1}}
 				</li>
 			</ul>
+		</div>-->
+
+		<!--Модификаторы событий-->
+		<!--<div class="sample">
+			<form action="">
+				<div class="form-group">
+					<label for="">Phone</label>
+					<input type="text" class="form-control"
+						   placeholder="Phone"
+						   v-model="phone"
+					       @keyup.enter="phone = !phone">
+				</div>
+
+
+				<hr>
+
+				<button class="btn-success">Submit</button>
+			</form>
+		</div>-->
+
+		<!--Реактивные Классы-->
+		<!--Если двум инпутам задать в-модел по одной и той же переменной то получится вот что(смена радиобаттонов)-->
+		<!--<div class="sample">
+			<form action="">
+				<div class="alert" :class="divClassName">
+					Some text
+				</div>
+				&lt;!&ndash;radio&ndash;&gt;
+				<div class="form-check">
+					<label class="form-check-label">
+						<input class="form-check-input"
+							   type="radio"
+							   value="info"
+							   v-model="divClass">
+						Primary
+					</label>
+				</div>
+
+				<div class="form-check">
+					<label class="form-check-label">
+						<input class="form-check-input"
+							   type="radio"
+							   value="warning"
+							   v-model="divClass">
+						Primary
+					</label>
+				</div>
+				<hr>
+
+				<div class="form-check" v-for="(value, name) in flags">
+					<label class="form-check-label">
+						<input class="form-check-input"
+							   type="checkbox"
+							   v-model="flags[name]">
+						{{name}}
+					</label>
+				</div>
+
+				<table class="table" :class="flags">
+					<tr>
+						<td>Title</td>
+						<td>some</td>
+						<td>nz</td>
+					</tr>
+					<tr>
+						<td>some</td>
+						<td>some</td>
+						<td>nz</td>
+					</tr>
+					<tr>
+						<td>some</td>
+						<td>some</td>
+						<td>nz</td>
+					</tr>
+				</table>
+
+			</form>
+		</div>-->
+
+		<!--работа со стилями-->
+		<!--<div class="sample">
+			<div class="alert" :style="[minHeight, properties]">
+				Some Text
+			</div>
+
+			<table class="table table-bordered">
+				<tr v-for="(value, name) in properties">
+					<td>{{name}}</td>
+					<td>
+						<input class="form-control" type="text" v-model="properties[name]">
+					</td>
+				</tr>
+			</table>
+
+			<hr>
+
+			<button class="btn btn-primary"
+					@click="height+=10">+ height
+			</button>
+
+			{{minHeight}}
 		</div>-->
 
 	</main>
@@ -149,7 +254,6 @@
             },
 		}
     });*/
-    //end watch, computed, methods
 
     //v-for
     /*let sample = new Vue({
@@ -202,7 +306,6 @@
             }
         }
     });*/
-    //end v-for
 
 	//добавление полей объекта налету
     /*let sample = new Vue({
@@ -231,6 +334,115 @@
         watch: {
 
         }
+    });*/
+
+    //hooks
+    /*let sample = new Vue({
+        el: ".sample",
+
+        data: {
+            firstName: ""
+        },
+
+        //собственно хуки
+        beforeCreate() {
+            console.log("bc");
+
+        },
+
+        created() {
+            console.log("c");
+
+        },
+
+
+        beforeMount() {
+            console.log("bm");
+            console.log(this.$el)
+
+        },
+
+
+        mounted() {
+            console.log("m");
+            console.log(this.$el)
+
+        },
+        beforeUpdate() {
+            //Будет срабатывать при каждом изменении в любом месте объекта,
+            //поэтому лучше не использовать для отслеживания чего-то одного
+            console.log("bu");
+        },
+
+        updated() {
+            console.log("u");
+        },
+
+        computed: {},
+
+        methods: {},
+
+        watch: {}
+    });*/
+
+    //Модификаторы событий v-model.lazy, @input.prevent...
+
+    //атрибут класс
+    //Что мы можем указывать в атрибуте класс:
+    //:class="string"
+    //:class="array"
+    //:class="object"
+    //:class="[str, obj, array]"
+    //:class="'alert', 'some', {a: true, b: false}";
+    /*let sample = new Vue({
+        el: ".sample",
+
+        data: {
+            phone: "",
+			divClass: "info",
+			flags: {
+                "table-bordered": false,
+				"table-hover": false,
+				"table-some": false
+			}
+		},
+
+        computed: {
+            divClassName() {
+                return [
+                    'alert-' + this.divClass,
+					'my-' + this.divClass
+				];
+			}
+		},
+
+        methods: {},
+
+        watch: {}
+    });*/
+
+    //Работа со стилями
+    /*let sample = new Vue({
+        el: ".sample",
+
+        data: {
+			properties: {
+                color: "tomato",
+				backgroundColor: "green",
+				transition: "all 0.5s"
+			},
+
+			height: 0
+		},
+
+		computed: {
+            minHeight() {
+				return {
+				    minHeight: this.height + "px"
+				}
+			}
+		}
+
     });*/
 
 </script>

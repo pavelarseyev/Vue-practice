@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<meta name="robots" content="noindex, follow">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="icon" type="image/png" sizes="400x400" href="../images/favicon.png">
+
+	<link rel="stylesheet" href="../css/style.css"/>
+	<title>hw2</title>
+</head>
+<body>
+<div class="wrapper">
+	<header class="header">
+
+	</header>
+
+	<!--Task-->
+	<!--
+		прогрессбар
+
+		инпут
+		инпут
+		инпут
+		инпут
+		инпут
+
+		сенд дата
+
+		Сделать валидацию инпутов с прогрессбаром.
+		По мере заполнения каждого инпута - заполняется и прогрессбар
+
+		после заполнения всех инпутов
+		становится активной кнопка сабмит,
+
+		по сабмиту показывается таблица, как из первого ДЗ
+	-->
+
+
+
+
+	<main class="main">
+		<div class="sample">
+
+			<div class="form">
+				<div class="progress">
+					<div class="progress-bar" role="progressbar" :style=""></div>
+				</div>
+
+				<div class="form-group" v-for="" :class="">
+					<input type="text" :placeholder="">
+				</div>
+			</div>
+
+			<div class="result">
+
+			</div>
+
+		</div>
+	</main>
+
+	<footer class="footer">
+
+
+	</footer>
+
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/global.js"></script>
+
+<script>
+
+    let sample = new Vue({
+        el: ".sample",
+
+        data: {
+			info: [
+				{
+				    name: "Name",
+					value: "",
+					pattern: /^[a-zA-Z ]{}/
+				},
+			]
+		},
+
+		computed: {
+
+		}
+
+    });
+
+</script>
+
+</body>
+</html>
